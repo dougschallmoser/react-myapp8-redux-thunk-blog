@@ -1,9 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 
-const UserHeader = () => {
+const UserHeader = (props) => {
+  const { user } = props
+
+  if (!user) {
+    return null;
+  }
+
   return (
-    <div>UserHeader</div>
+    <div className="header">{user.name}</div>
   )
 }
 
-export default UserHeader;
+// Has access to "userId" by utilizing "ownProps" as second argument
+const mapStateToProps = (state, ownProps) => {
+  return {
+    user: state.users.find(user => user.id === ownProps.userId)
+  }
+}
+
+export default connect(mapStateToProps)(UserHeader);
